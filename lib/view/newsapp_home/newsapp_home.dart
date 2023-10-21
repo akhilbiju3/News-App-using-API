@@ -47,18 +47,21 @@ class _NewsAppHomeState extends State<NewsAppHome> {
           title: const Text('News App'),
           centerTitle: true,
         ),
-        body: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: modelResponse?.articles?.length ?? 0,
-                itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.all(10),
-                  color: Colors.grey[300],
-                  child: Text(
-                    modelResponse?.articles?[index].description ?? "Loading",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-              ));
+        body: Column(children: [],)
+        );
   }
 }
+
+// isLoading
+//             ? Center(child: CircularProgressIndicator())
+//             : ListView.builder(
+//                 itemCount: modelResponse?.articles?.length ?? 0,
+//                 itemBuilder: (context, index) => Container(
+//                   margin: EdgeInsets.all(10),
+//                   color: Colors.grey[300],
+//                   child: Text(
+//                     modelResponse?.articles?[index].description ?? "Loading",
+//                     style: TextStyle(color: Colors.red),
+//                   ),
+//                 ),
+//               )
