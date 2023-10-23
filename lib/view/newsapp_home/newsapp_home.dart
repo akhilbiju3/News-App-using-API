@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsapp/model/newsapp_model_class/news_app_model_class.dart';
+import 'package:newsapp/utils/color_constants/color.dart';
 
 class NewsAppHome extends StatefulWidget {
   const NewsAppHome({super.key});
@@ -28,14 +29,14 @@ class _NewsAppHomeState extends State<NewsAppHome> {
     print(response.statusCode);
     print(response.body);
     modelResponse = PublicApiRsponse.fromJson(jsonDecode(response.body));
-    
+
     setState(() {
       isLoading = false;
     });
   }
 
   @override
-  void initState(){
+  void initState() {
     fetchData();
     super.initState();
   }
@@ -44,11 +45,45 @@ class _NewsAppHomeState extends State<NewsAppHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: backgroundColor,
           title: const Text('News App'),
           centerTitle: true,
         ),
-        body: Column(children: [],)
-        );
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0, left: 15),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Search",
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: backgroundColor,
+                    child: Icon(
+                      Icons.notifications_none_outlined,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }
 
