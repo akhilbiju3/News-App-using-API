@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsapp/model/newsapp_model_class/news_app_model_class.dart';
 import 'package:newsapp/utils/color_constants/color.dart';
+import 'package:newsapp/view/carousal/carousalslider.dart';
 
 class NewsAppHome extends StatefulWidget {
   const NewsAppHome({super.key});
@@ -50,53 +50,58 @@ class _NewsAppHomeState extends State<NewsAppHome> {
           title: const Text('News App'),
           centerTitle: true,
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 15.0, left: 15),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Search",
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0, left: 15),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "Search",
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: backgroundColor,
-                    child: Icon(
-                      Icons.notifications_none_outlined,
-                      color: Colors.white,
+                    SizedBox(
+                      width: 10,
                     ),
-                  )
-                ],
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: backgroundColor,
+                      child: Icon(
+                        Icons.notifications_none_outlined,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 13.0,
+                ),
+                child: Text("Latest News",
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
+              CarousalSlider(),
+              SizedBox(
+                height: 5,
+              ),
+            ],
+          ),
         ));
   }
 }
-
-// isLoading
-//             ? Center(child: CircularProgressIndicator())
-//             : ListView.builder(
-//                 itemCount: modelResponse?.articles?.length ?? 0,
-//                 itemBuilder: (context, index) => Container(
-//                   margin: EdgeInsets.all(10),
-//                   color: Colors.grey[300],
-//                   child: Text(
-//                     modelResponse?.articles?[index].description ?? "Loading",
-//                     style: TextStyle(color: Colors.red),
-//                   ),
-//                 ),
-//               )
