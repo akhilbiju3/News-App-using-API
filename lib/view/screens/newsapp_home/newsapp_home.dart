@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsapp/model/newsapp_model_class/news_app_model_class.dart';
 import 'package:newsapp/utils/color_constants/color.dart';
-import 'package:newsapp/view/carousal/carousalslider.dart';
+import 'package:newsapp/view/screens/breaking_details/breaking_details.dart';
+import 'package:newsapp/view/screens/carousal/carousalslider.dart';
 
 class NewsAppHome extends StatefulWidget {
   const NewsAppHome({super.key});
@@ -93,13 +94,52 @@ class _NewsAppHomeState extends State<NewsAppHome> {
                   left: 13.0,
                 ),
                 child: Text("Latest News",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: backgroundColor)),
               ),
               CarousalSlider(),
               SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 13.0,
+                ),
+                child: Text("Breaking News",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: backgroundColor)),
+              ),
+              SizedBox(
                 height: 5,
               ),
+              ListView.builder(
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BreakingNews(),
+                  )),
+                  child: ListTile(
+                      leading: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                image: NetworkImage(modelResponse!
+                                    .articles![index].urlToImage
+                                    .toString()),
+                                fit: BoxFit.cover)),
+                      ),
+                      title: Text(
+                          modelResponse!.articles![index].title.toString())),
+                ),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 10,
+              )
             ],
           ),
         ));

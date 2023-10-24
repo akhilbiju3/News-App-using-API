@@ -88,7 +88,7 @@ class _CarousalSliderState extends State<CarousalSlider> {
                   child: Text(
                     modelResponse?.articles?[currentSlider].title ?? "No Title",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 17,
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
                     ),
