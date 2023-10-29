@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/model/newsapp_model_class/news_app_model_class.dart';
-import 'package:http/http.dart' as http;
+import 'package:newsapp/controller/home_screen_controller/home_screen_controller.dart';
+import 'package:provider/provider.dart';
 
 class CarousalSlider extends StatefulWidget {
   const CarousalSlider({super.key});
@@ -15,25 +13,12 @@ class CarousalSlider extends StatefulWidget {
 class _CarousalSliderState extends State<CarousalSlider> {
   int currentSlider = 0;
   GlobalKey<CarouselSliderState> sliderKey = GlobalKey();
-  PublicApiRsponse? modelResponse;
-  Future<void> fetchData() async {
-    final url = Uri.parse(
-        "https://newsapi.org/v2/everything?q=keyword&apiKey=5755fbbf963843daa9cbf625323f06c1");
 
-    var response = await http.get(url);
-    print(response.statusCode);
-    print(response.body);
-    modelResponse = PublicApiRsponse.fromJson(jsonDecode(response.body));
-  }
-
-  @override
-  void initState() {
-    fetchData();
-    super.initState();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
+    var carousalSlider = Provider.of<HomeScreenController>(context);
     return Column(
       children: [
         Stack(
@@ -44,7 +29,7 @@ class _CarousalSliderState extends State<CarousalSlider> {
                   BoxDecoration(borderRadius: BorderRadius.circular(20)),
               child: CarouselSlider.builder(
                 key: sliderKey,
-                itemCount: modelResponse?.articles?.length ?? 0,
+                itemCount: carousalSlider.latestNews?.articles?.length ?? 0,
                 itemBuilder: (context, index, realIndex) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -54,8 +39,8 @@ class _CarousalSliderState extends State<CarousalSlider> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
-                            image: NetworkImage(modelResponse
-                                    ?.articles?[index].urlToImage
+                            image: NetworkImage(carousalSlider
+                                    .latestNews?.articles?[index].urlToImage
                                     .toString() ??
                                 "https://readwrite.com/colorado-supreme-court-affirms-use-of-google-keyword-search-warrants/"),
                             fit: BoxFit.fill),
@@ -69,10 +54,9 @@ class _CarousalSliderState extends State<CarousalSlider> {
                   height: MediaQuery.of(context).size.height * 0.5,
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index, reason) {
-                    setState(() {
-                      currentSlider = index;
-                      print("Page changed to index: $currentSlider");
-                    });
+                    carousalSlider.carosualUpdate(index);
+
+                    print(carousalSlider.currentSlider);
                   },
                 ),
               ),
@@ -86,7 +70,9 @@ class _CarousalSliderState extends State<CarousalSlider> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                   child: Text(
-                    modelResponse?.articles?[currentSlider].title ?? "No Title",
+                    carousalSlider.latestNews
+                            ?.articles?[carousalSlider.currentSlider].title ??
+                        "No Title",
                     style: TextStyle(
                       fontSize: 17,
                       color: Colors.black,
