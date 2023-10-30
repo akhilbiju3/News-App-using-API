@@ -1,9 +1,7 @@
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/controller/Bottom_navigation_controller/bottom_controller.dart';
-
 import 'package:newsapp/controller/home_screen_controller/home_screen_controller.dart';
-import 'package:newsapp/model/newsapp_model_class/news_app_model_class.dart';
+import 'package:newsapp/controller/search_controller/search_controller.dart';
 import 'package:newsapp/utils/color_constants/color.dart';
 import 'package:newsapp/view/screens/breaking_details/breaking_details.dart';
 import 'package:newsapp/view/screens/carousal/carousalslider.dart';
@@ -17,7 +15,6 @@ class NewsAppHome extends StatefulWidget {
 }
 
 class _NewsAppHomeState extends State<NewsAppHome> {
-  PublicApiRsponse? modelResponse;
 
   @override
   void initState(){
@@ -30,7 +27,10 @@ class _NewsAppHomeState extends State<NewsAppHome> {
       Provider.of<HomeScreenController>(context, listen: false)
           .latestNewsData(),
       Provider.of<HomeScreenController>(context, listen: false)
-          .breakingNewsData()
+          .breakingNewsData(),
+      Provider.of<SearchBarController>(context, listen: false)
+          .searchData(),
+         
     ]);
   }
 

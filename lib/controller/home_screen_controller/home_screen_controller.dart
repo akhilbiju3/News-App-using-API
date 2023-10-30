@@ -8,19 +8,6 @@ class HomeScreenController extends ChangeNotifier {
   PublicApiRsponse? latestNews;
   PublicApiRsponse? breakingNews;
   int currentSlider = 0;
-  // fetchData({String? searchQuery = "Trending"}) async {
-  //   isLoading = true;
-  //   notifyListeners();
-
-  //   final url = Uri.parse(
-  //       "https://newsapi.org/v2/everything?q=$searchQuery&apiKey=5755fbbf963843daa9cbf625323f06c1");
-  //   var response = await http.get(url);
-  //   print(response.statusCode);
-  //   print(response.body);
-  //   modelResponse = PublicApiRsponse.fromJson(jsonDecode(response.body));
-  //   isLoading = false;
-  //   notifyListeners();
-  // }
   void carosualUpdate(int index) {
     currentSlider = index;
     notifyListeners();
