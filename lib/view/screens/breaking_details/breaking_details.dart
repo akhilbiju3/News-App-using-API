@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/controller/home_screen_controller/home_screen_controller.dart';
 import 'package:newsapp/utils/color_constants/color.dart';
-import 'package:provider/provider.dart';
 
 class BreakingNews extends StatefulWidget {
   final int selectedIndex;
-  const BreakingNews({super.key, required this.selectedIndex});
+  final newsDataProvider;
+
+  const BreakingNews({
+    super.key,
+    required this.selectedIndex,
+    required this.newsDataProvider,
+  });
 
   @override
   State<BreakingNews> createState() => _BreakingNewsState();
@@ -14,7 +18,6 @@ class BreakingNews extends StatefulWidget {
 class _BreakingNewsState extends State<BreakingNews> {
   @override
   Widget build(BuildContext context) {
-    var homeScreenProvider = Provider.of<HomeScreenController>(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -27,7 +30,7 @@ class _BreakingNewsState extends State<BreakingNews> {
                 decoration: BoxDecoration(
                     color: backgroundColor,
                     image: DecorationImage(
-                        image: NetworkImage(homeScreenProvider.breakingNews
+                        image: NetworkImage(widget.newsDataProvider
                                 ?.articles?[widget.selectedIndex].urlToImage
                                 .toString() ??
                             ""),
@@ -51,6 +54,33 @@ class _BreakingNewsState extends State<BreakingNews> {
                   ),
                 ),
               ),
+              Positioned(
+                bottom: 10,
+                left: 320,
+                child: Row(
+                  children: [
+                    Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white.withOpacity(.89),
+                        ),
+                        child: Icon(Icons.share)),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white.withOpacity(.89),
+                        ),
+                        child: Icon(Icons.bookmark_border)),
+                  ],
+                ),
+              ),
             ],
           ),
           SizedBox(
@@ -64,8 +94,8 @@ class _BreakingNewsState extends State<BreakingNews> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    homeScreenProvider
-                            .breakingNews?.articles?[widget.selectedIndex].title
+                    widget.newsDataProvider?.articles?[widget.selectedIndex]
+                            .title
                             .toString() ??
                         "",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -76,18 +106,13 @@ class _BreakingNewsState extends State<BreakingNews> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "${homeScreenProvider.breakingNews?.articles?[widget.selectedIndex].author.toString() ?? ""} | ${homeScreenProvider.breakingNews?.articles?[widget.selectedIndex].publishedAt.toString() ?? ""}",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.share),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(Icons.bookmark_border)
-                        ],
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Text(
+                          "${widget.newsDataProvider?.articles?[widget.selectedIndex].author.toString() ?? ""} | ${widget.newsDataProvider?.articles?[widget.selectedIndex].publishedAt.toString() ?? ""}",
+                          style: TextStyle(fontSize: 12),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
@@ -96,8 +121,8 @@ class _BreakingNewsState extends State<BreakingNews> {
                     indent: 0,
                   ),
                   Text(
-                    homeScreenProvider.breakingNews
-                            ?.articles?[widget.selectedIndex].description
+                    widget.newsDataProvider?.articles?[widget.selectedIndex]
+                            .description
                             .toString() ??
                         "",
                     style: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/material.dart';
+import 'package:newsapp/controller/category_controller/categrory_controller.dart';
 import 'package:newsapp/controller/home_screen_controller/home_screen_controller.dart';
 import 'package:newsapp/controller/search_controller/search_controller.dart';
 import 'package:newsapp/utils/color_constants/color.dart';
@@ -30,6 +31,7 @@ class _NewsAppHomeState extends State<NewsAppHome> {
           .breakingNewsData(),
       Provider.of<SearchBarController>(context, listen: false)
           .searchData(),
+        
          
     ]);
   }
@@ -85,7 +87,7 @@ class _NewsAppHomeState extends State<NewsAppHome> {
                         itemBuilder: (context, index) => InkWell(
                           onTap: () =>
                               Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => BreakingNews(selectedIndex: index,),
+                            builder: (context) => BreakingNews(selectedIndex: index, newsDataProvider: homeScreenProvider.breakingNews),
                           )),
                           child: ListTile(
                               leading: Container(
@@ -99,7 +101,7 @@ class _NewsAppHomeState extends State<NewsAppHome> {
                                                 ?.articles?[index]
                                                 .urlToImage
                                                 .toString() ??
-                                            ""),
+                                            "https://images.pexels.com/photos/4439425/pexels-photo-4439425.jpeg?auto=compress&cs=tinysrgb&w=400"),
                                         fit: BoxFit.cover)),
                               ),
                               title: Text(homeScreenProvider
