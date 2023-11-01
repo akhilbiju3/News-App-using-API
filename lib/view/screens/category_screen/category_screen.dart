@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsapp/model/list_items/list.dart';
-import 'package:newsapp/view/screens/bottom_naviagtion/category/category_details.dart';
+import 'package:newsapp/view/screens/category_screen/category_details.dart';
 
 class Category extends StatefulWidget {
   const Category({super.key});
@@ -14,7 +14,32 @@ class _CategoryState extends State<Category> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("NewsApp"),
+        elevation: 0,
+        backgroundColor: Color.fromARGB(255, 255, 214, 214),
+        title: Padding(
+          padding: const EdgeInsets.only(right: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/logo/News (2).png",
+                height: 80,
+                width: 80,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: Text(
+                  "NEWS HUB",
+                  style: TextStyle(
+                      color: Color(0xff7C040D),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20),
+                ),
+              )
+            ],
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SafeArea(
           child: Padding(
@@ -24,7 +49,11 @@ class _CategoryState extends State<Category> {
             SizedBox(
               height: MediaQuery.of(context).size.height * .01,
             ),
-            Text("Categories", style: TextStyle(fontSize: 20)),
+            Text("Categories",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Color(0xff7C040D),
+                    fontWeight: FontWeight.w700)),
             SizedBox(
               height: MediaQuery.of(context).size.height * .02,
             ),
@@ -43,8 +72,8 @@ class _CategoryState extends State<Category> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => CategoryDetails(
-                          categoryIndex: index, categoryName: ListItems.gridList[index],
-
+                          categoryIndex: index,
+                          categoryName: ListItems.gridList[index],
                         ),
                       ));
                     },
@@ -70,8 +99,9 @@ class _CategoryState extends State<Category> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
+                              color: Color(0xff7C040D),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

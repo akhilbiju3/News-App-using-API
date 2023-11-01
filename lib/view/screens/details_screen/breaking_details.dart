@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/utils/color_constants/color.dart';
+import 'package:newsapp/global_widgets/constants/color_constants/color.dart';
+import 'package:share_plus/share_plus.dart';
 
 class BreakingNews extends StatefulWidget {
   final int selectedIndex;
@@ -66,7 +67,15 @@ class _BreakingNewsState extends State<BreakingNews> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white.withOpacity(.89),
                         ),
-                        child: Icon(Icons.share)),
+                        child: InkWell(
+                          child: Icon(Icons.share),
+                          onTap: () {
+                            Share.share(widget.newsDataProvider
+                                    ?.articles?[widget.selectedIndex].title
+                                    .toString() ??
+                                "");
+                          },
+                        )),
                     SizedBox(
                       width: 10,
                     ),

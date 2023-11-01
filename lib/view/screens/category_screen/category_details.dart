@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:newsapp/controller/category_controller/categrory_controller.dart';
+import 'package:newsapp/global_widgets/constants/color_constants/color.dart';
 import 'package:newsapp/model/list_items/list.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +17,9 @@ class CategoryDetails extends StatefulWidget {
 
 class _CategoryDetailsState extends State<CategoryDetails> {
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
     categoryFetchData();
+    super.didChangeDependencies();
   }
 
   void categoryFetchData() async {
@@ -28,23 +30,23 @@ class _CategoryDetailsState extends State<CategoryDetails> {
       await categoryScreenProviders.categoryData(
           categoryQuery: widget.categoryName);
     } catch (error) {
-      // Handle any errors here, e.g., display an error message
       print("Error fetching data: $error");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var categoryScreenProvider =
-        Provider.of<CategoryController>(context, listen: true);
+    var categoryScreenProvider = Provider.of<CategoryController>(context);
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text(ListItems.gridList[widget.categoryIndex]),
+        backgroundColor: backgroundColor,
+        title: Text(ListItems.gridList[widget.categoryIndex],style: TextStyle(color: Color(0xff7C040D)),),
         centerTitle: true,
       ),
       body: categoryScreenProvider.isLoading
-          ? Center(child: const CircularProgressIndicator())
+          ? Center(child: LoadingAnimationWidget.inkDrop(
+                    color: Color(0xff7C040D), size: 30))
           : RefreshIndicator(
               onRefresh: () {
                 return Future.wait([
@@ -52,8 +54,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                       categoryQuery: widget.categoryName),
                 ]);
               },
-              child: SafeArea(child: Consumer<CategoryController>(
-                builder: (context, categoryScreenProvider, child) {
+              child: Consumer<CategoryController>(
+                builder: (context, categoryProvider, child) {
                   return ListView.separated(
                     separatorBuilder: (context, index) => SizedBox(
                       height: MediaQuery.of(context).size.height * .03,
@@ -67,7 +69,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.blueAccent.withOpacity(.1),
+                            color:backgroundColor,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -171,7 +173,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                     },
                   );
                 },
-              )),
+              ),
             ),
     );
   }

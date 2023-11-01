@@ -15,6 +15,7 @@ class CategoryController extends ChangeNotifier {
     final url = Uri.parse(
         "https://newsapi.org/v2/top-headlines/sources?category=$categoryQuery&apiKey=5755fbbf963843daa9cbf625323f06c1");
     var cresponse = await http.get(url);
+    
     print(cresponse.statusCode);
     print(cresponse.body);
     categoryResponse = CategoryApiRsponse.fromJson(jsonDecode(cresponse.body));
