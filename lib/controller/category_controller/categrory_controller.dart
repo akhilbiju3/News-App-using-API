@@ -14,14 +14,27 @@ class CategoryController extends ChangeNotifier {
 
     final url = Uri.parse(
         "https://newsapi.org/v2/top-headlines/sources?category=$categoryQuery&apiKey=5755fbbf963843daa9cbf625323f06c1");
-    var cresponse = await http.get(url);
-    
-    print(cresponse.statusCode);
-    print(cresponse.body);
-    categoryResponse = CategoryApiRsponse.fromJson(jsonDecode(cresponse.body));
-    isLoading = false;
-    notifyListeners();
-    print("Loading stopped");
-    print(categoryQuery);
+    try {
+      var cresponse = await http.get(url);
+
+      print(cresponse.statusCode);
+      print(cresponse.body);
+      if (cresponse.statusCode == 200) {
+        print("Success");
+        categoryResponse =
+            CategoryApiRsponse.fromJson(jsonDecode(cresponse.body));
+      } else {
+        print("Failed");
+      }
+
+      isLoading = false;
+      notifyListeners();
+      print("Loading stopped");
+      print(categoryQuery);
+    } catch (e) {
+      print(e);
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }

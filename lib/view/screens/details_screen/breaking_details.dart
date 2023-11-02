@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:newsapp/controller/bookmark_controller/bookmark_controller.dart';
 import 'package:newsapp/global_widgets/constants/color_constants/color.dart';
+import 'package:newsapp/model/bookmark_model_class/bookmark_model_class.dart';
 import 'package:share_plus/share_plus.dart';
 
 class BreakingNews extends StatefulWidget {
@@ -79,14 +81,30 @@ class _BreakingNewsState extends State<BreakingNews> {
                     SizedBox(
                       width: 10,
                     ),
-                    Container(
-                        height: 35,
-                        width: 35,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white.withOpacity(.89),
-                        ),
-                        child: Icon(Icons.bookmark_border)),
+                    InkWell(
+                      onTap: () {
+                        return BookmarkController.bookmarkList.add(
+                            BookmarkModel(
+                                titlebook: widget.newsDataProvider
+                                        ?.articles?[widget.selectedIndex].title
+                                        .toString() ??
+                                    "",
+                                imageURL: widget
+                                        .newsDataProvider
+                                        ?.articles?[widget.selectedIndex]
+                                        .urlToImage
+                                        .toString() ??
+                                    ""));
+                      },
+                      child: Container(
+                          height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white.withOpacity(.89),
+                          ),
+                          child: Icon(Icons.bookmark_border)),
+                    ),
                   ],
                 ),
               ),

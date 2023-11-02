@@ -4,6 +4,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:newsapp/controller/home_screen_controller/home_screen_controller.dart';
 import 'package:newsapp/controller/search_controller/search_controller.dart';
 import 'package:newsapp/global_widgets/constants/color_constants/color.dart';
+import 'package:newsapp/view/screens/bookmark_screen/bookmark.dart';
 import 'package:newsapp/view/screens/category_screen/category_screen.dart';
 import 'package:newsapp/view/screens/search_screen/search.dart';
 import 'package:newsapp/view/screens/details_screen/breaking_details.dart';
@@ -96,6 +97,14 @@ class _NewsAppHomeState extends State<NewsAppHome> {
           ),
         ),
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Bookmark()));
+                },
+                icon: Icon(Icons.bookmark_border_outlined)),
+          ],
           elevation: 0,
           backgroundColor: backgroundColor,
           title: Padding(

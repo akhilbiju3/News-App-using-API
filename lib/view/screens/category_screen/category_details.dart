@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:newsapp/controller/bookmark_controller/bookmark_controller.dart';
 import 'package:newsapp/controller/category_controller/categrory_controller.dart';
 import 'package:newsapp/global_widgets/constants/color_constants/color.dart';
+import 'package:newsapp/model/bookmark_model_class/bookmark_model_class.dart';
 import 'package:newsapp/model/list_items/list.dart';
 import 'package:provider/provider.dart';
+
+import '../bookmark_screen/bookmark.dart';
 
 class CategoryDetails extends StatefulWidget {
   final int categoryIndex;
@@ -17,14 +21,14 @@ class CategoryDetails extends StatefulWidget {
 
 class _CategoryDetailsState extends State<CategoryDetails> {
   @override
-  void didChangeDependencies() {
+  void initState() {
     categoryFetchData();
-    super.didChangeDependencies();
+    super.initState();
   }
 
   void categoryFetchData() async {
     final categoryScreenProviders =
-        Provider.of<CategoryController>(context, listen: true);
+        Provider.of<CategoryController>(context, listen: false);
 
     try {
       await categoryScreenProviders.categoryData(
@@ -41,12 +45,16 @@ class _CategoryDetailsState extends State<CategoryDetails> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: Text(ListItems.gridList[widget.categoryIndex],style: TextStyle(color: Color(0xff7C040D)),),
+        title: Text(
+          ListItems.gridList[widget.categoryIndex],
+          style: TextStyle(color: Color(0xff7C040D)),
+        ),
         centerTitle: true,
       ),
       body: categoryScreenProvider.isLoading
-          ? Center(child: LoadingAnimationWidget.inkDrop(
-                    color: Color(0xff7C040D), size: 30))
+          ? Center(
+              child: LoadingAnimationWidget.inkDrop(
+                  color: Color(0xff7C040D), size: 30))
           : RefreshIndicator(
               onRefresh: () {
                 return Future.wait([
@@ -69,7 +77,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color:backgroundColor,
+                            color: backgroundColor,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -95,15 +103,28 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    Container(
-                                        height: 35,
-                                        width: 35,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white.withOpacity(.89),
-                                        ),
-                                        child: Icon(Icons.bookmark_border)),
+                                    InkWell(
+                                      onTap: () {
+                                        return BookmarkController.bookmarkList
+                                            .add(BookmarkModel(
+                                          titlebook: categoryScreenProvider
+                                                  .categoryResponse
+                                                  ?.sources?[index]
+                                                  .description ??
+                                              "No Data",
+                                        ));
+                                      },
+                                      child: Container(
+                                          height: 35,
+                                          width: 35,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color:
+                                                Colors.white.withOpacity(.89),
+                                          ),
+                                          child: Icon(Icons.bookmark_border)),
+                                    ),
                                   ],
                                 ),
                               ),
